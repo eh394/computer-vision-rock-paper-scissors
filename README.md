@@ -16,3 +16,6 @@ get_computer_choice(): uses python's random library to select a random item from
 get_user_choice(): uses bult-in python function input() to ask user for their choice and assigns it to a variable user_choice. The function returns user_choice. Please note that at present this code is inherently flawed as it will not deal with invalid user input or issue of lower / upper / title case, for instance.
 get_winner(): this function takes two parameters, computer_choice and user_choice and with simple if elif and else statements defines whether the user won, the computer won or whether it is a tie.
 play(): play simply calls all three functions to run the game itself!
+
+
+![Alt text](../../01.png)
