@@ -2,6 +2,7 @@ import cv2
 from keras.models import load_model
 import numpy as np
 import time
+import random
 model = load_model('keras_model.h5')
 
 labels = open('labels.txt', 'r').read().split('\n')
@@ -10,6 +11,11 @@ labels.pop()
 
 start = time.time()
 
+
+def get_computer_choice():
+    choices = ['Rock', 'Paper', 'Scissors']
+    computer_choice = random.choice(choices)
+    return computer_choice
 
 def get_prediction():
     # create a video capture object; the argument can index of the device. Typically there is only one device connected so you can pass either 0 or -1
@@ -38,7 +44,7 @@ def get_prediction():
                            
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-        
+
     print(f' You chose {prediction}.')
                 
     # After the loop release the cap object
@@ -47,59 +53,29 @@ def get_prediction():
     cv2.destroyAllWindows()
     return prediction
 
+def get_winner(computer_choice, user_choice):
+    if (computer_choice == 'Rock' and user_choice == 'Scissors') or (computer_choice == 'Paper' and user_choice == 'Rock') or (computer_choice == 'Scissors' and user_choice == 'Paper'):
+        print('You lost')
+        return 0
+    elif (user_choice == 'Rock' and computer_choice == 'Scissors') or (user_choice == 'Paper' and computer_choice == 'Rock') or (user_choice == 'Scissors' and computer_choice == 'Paper'):
+        print('You won!')
+        return 1
+    elif user_choice == 'Nothing':
+        print('No guess')
+    else:
+        print('It is a tie!')
 
-get_prediction()
+def play():
+    computer_total = 0
+    user_total = 0
+    difference = abs(computer_total - user_total)
+    while difference < 3:
+        computer_choice = get_computer_choice()
+        user_choice = get_prediction()
+        result = get_winner(computer_choice, user_choice)
+        if result == 0:
+            computer_total += 1
+        elif result == 1:
+            user_total += 1
 
-
-
-
-# import random
-
-
-# def get_computer_choice():
-#     choices = ['Rock', 'Paper', 'Scissors']
-#     computer_choice = random.choice(choices)
-#     return computer_choice
-
-# def get_user_choice():
-#     user_choice = input('Please enter Rock, Paper or Scissors: ')
-#     return user_choice
-
-# def get_winner(computer_choice, user_choice):
-#     if (computer_choice == 'Rock' and user_choice == 'Scissors') or (computer_choice == 'Paper' and user_choice == 'Rock') or (computer_choice == 'Scissors' and user_choice == 'Paper'):
-#         print('You lost')
-#     elif (user_choice == 'Rock' and computer_choice == 'Scissors') or (user_choice == 'Paper' and computer_choice == 'Rock') or (user_choice == 'Scissors' and computer_choice == 'Paper'):
-#         print('You won!')
-#     else:
-#         print('It is a tie!')
-
-# def play():
-#     computer_choice = get_computer_choice()
-#     user_choice = get_user_choice()
-#     get_winner(computer_choice, user_choice)
-
-# play()
-
-
-# import random
-
-# choices = ['rock', 'paper', 'scissors']
-
-# def get_computer_choice():
-#     computer_choice = random.choice(choices)
-#     print(computer_choice)
-#     return computer_choice
-
-# def get_user_choice():
-#     while True:
-#         user_choice = input('Please enter rock, paper or scissors: ')
-#         if user_choice.lower() not in choices:
-#             print('Invalid entry. Please enter rock, paper, or scissors.')
-#         else:
-#             user_choice = user_choice.lower()
-#             print(user_choice)
-#             break    
-#     return user_choice
-
-# get_computer_choice()
-# get_user_choice()
+play()
