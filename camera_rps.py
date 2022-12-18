@@ -65,17 +65,17 @@ def get_winner(computer_choice, user_choice):
 
 
 def play():
-    computer_total = 0
-    user_total = 0
+    computer_wins = 0
+    user_wins = 0
     while True:
         computer_choice = get_computer_choice()
         user_choice = get_prediction()
         result = get_winner(computer_choice, user_choice)
         if result == 0:
-            computer_total += 1
+            computer_wins += 1
         elif result == 1:
-            user_total += 1
-        if computer_total >= 3 or user_total >= 3:
+            user_wins += 1
+        if computer_wins >= 3 or user_wins >= 3:
             break
 
 play()
