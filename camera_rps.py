@@ -5,7 +5,7 @@ import time
 import random
 model = load_model('keras_model.h5')
 
-labels = open('labels.txt', 'r').read().split('\n')
+labels = open('labels.txt', 'r').read().split('\n') # with open clause (context manager so the file opens and closes)
 labels = [entry[2:] for entry in labels]
 labels.pop()
 
@@ -14,15 +14,16 @@ class RockPaperScissors:
         pass
 
     def get_computer_choice(self):
-        choices = ['Rock', 'Paper', 'Scissors']
+        choices = ['Rock', 'Paper', 'Scissors'] # replace with labels with index, choices could be initialised in intii
         self.computer_choice = random.choice(choices)
         return self.computer_choice
 
     def get_prediction(self):
         # create a video capture object; the argument can be the index of the device. Typically there is only one device connected so you can pass either 0 or -1
+        # reusability principle of oop; models to be attributes of the object
         cap = cv2.VideoCapture(0)
         data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-        self.start = time.time()
+        self.start = time.time() # define time.time() + 5 here and amend if statement' no need to make start attribute of an object
         while True: 
             # capture frame by frame
             ret, frame = cap.read()
@@ -48,7 +49,7 @@ class RockPaperScissors:
         print(f'You chose {self.prediction}.')
                     
         # After the loop release the cap object
-        cap.release()
+        cap.release() # this is better placed in game logic so the window only opens and closes when the game is complete rather than at every turn
         # Destroy all the windows
         cv2.destroyAllWindows()
         return self.prediction
@@ -60,14 +61,14 @@ class RockPaperScissors:
         elif (user_choice == 'Rock' and computer_choice == 'Scissors') or (user_choice == 'Paper' and computer_choice == 'Rock') or (user_choice == 'Scissors' and computer_choice == 'Paper'):
             print('You won!')
             return 1
-        elif user_choice == 'Nothing':
+        elif user_choice == 'Nothing': # this should be an if condition, then tie, then you lost, then you won
             print('No guess')
         else:
             print('It is a tie!')
 
 
 
-def play():
+def play(): # instead of hardcoding 3, you can pass it as parameter tothe function
     game = RockPaperScissors()
     computer_wins = 0
     user_wins = 0
@@ -77,7 +78,7 @@ def play():
         result = game.get_winner(computer_choice, user_choice)
         
         if result == 0:
-            computer_wins += 1
+            computer_wins += 1 # you could initialise computer and user wins in init
         elif result == 1:
             user_wins += 1
         if computer_wins >= 3 or user_wins >= 3:
